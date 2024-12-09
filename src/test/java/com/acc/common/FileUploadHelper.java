@@ -16,7 +16,7 @@ public class FileUploadHelper {
 
         page.waitForTimeout(2000);
 
-        Locator filesTabLocator = page.locator(FILES_SELECTOR);
+        Locator filesTabLocator = page.locator(FILES_TAB);
 
         // Wait for the "Files" tab to be visible before clicking
         filesTabLocator.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE));
@@ -33,7 +33,7 @@ public class FileUploadHelper {
 
 
         page.waitForTimeout(2000);
-        Locator folderTabLocator = page.locator(FOLDER_SELECTOR);
+        Locator folderTabLocator = page.locator(FOLDER_);
         folderTabLocator.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE)); // Wait for it to be visible
 
         folderTabLocator.click();
@@ -42,7 +42,7 @@ public class FileUploadHelper {
 
         page.waitForTimeout(2000);
 
-        Locator uploadDropdown = page.locator(UPLOAD_FILE_DROPDOWN_LOCATOR);
+        Locator uploadDropdown = page.locator(UPLOAD_FILE_DROPDOWN_);
         uploadDropdown.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE));
         uploadDropdown.click();
 
@@ -52,7 +52,7 @@ public class FileUploadHelper {
 
         System.out.println("choose upload file option");
 
-        Locator selectFileButton = page.locator(FILE_INPUT_LOCATOR);
+        Locator selectFileButton = page.locator(FILE_INPUT_);
         selectFileButton.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE));
         selectFileButton.setInputFiles(Paths.get(UPLOAD_FILE_PATH));
         page.waitForLoadState();
@@ -62,15 +62,9 @@ public class FileUploadHelper {
         uploadButton.click();
         page.waitForLoadState();
 
-        Locator uploadSuccess = page.locator(UPLOAD_SUCCESS_MESSAGE_LOCATOR);
+        Locator uploadSuccess = page.locator(UPLOAD_SUCCESS_MESSAGE_);
         uploadSuccess.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE));
         System.out.println("File upload successful.");
-
-
-
-
-
-
 
     }
 

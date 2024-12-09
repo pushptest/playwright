@@ -18,13 +18,13 @@ public class LoginHelper {
         FrameLocator iframeLocator = page.frameLocator("#iFrameAsite");
 
         System.out.println("Filling in username...");
-        iframeLocator.locator(IntegrationConstants.USERNAME_SELECTOR).fill(username);
+        iframeLocator.locator(IntegrationConstants.USERNAME).fill(username);
 
         System.out.println("Filling in password...");
-        iframeLocator.locator(IntegrationConstants.PASSWORD_SELECTOR).fill(password);
+        iframeLocator.locator(IntegrationConstants.PASSWORD).fill(password);
 
         System.out.println("Clicking login button...");
-        iframeLocator.locator(IntegrationConstants.LOGIN_BUTTON_SELECTOR).click();
+        iframeLocator.locator(IntegrationConstants.LOGIN_BUTTON_).click();
 
         // After interacting with the iframe, you're automatically back to the main page context
         System.out.println("Login process completed.");

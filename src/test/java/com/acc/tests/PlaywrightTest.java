@@ -183,7 +183,7 @@ public class PlaywrightTest {
         LoginHelper.login(page, "accsb@namechange.com", "Asite@1234");
 
         // Use XPath to check for the "Dashboard" element after login
-        Locator dashboardLocator = page.locator(LOGIN_DASHBOARD_SELECTOR_SB);
+        Locator dashboardLocator = page.locator(LOGIN_DASHBOARD_ );
 
         // Wait for the "Dashboard" element to appear, indicating successful login
         dashboardLocator.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE));

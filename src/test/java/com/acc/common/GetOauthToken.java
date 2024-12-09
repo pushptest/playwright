@@ -11,6 +11,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import static com.acc.constants.IntegrationConstants.*;
+
 public class GetOauthToken {
 
     public static String getAccessToken(String username, String password) throws Exception {
@@ -19,25 +21,25 @@ public class GetOauthToken {
             Page page = browser.newPage();
 
             // Step 1: Open the URL
-            page.navigate("https://developer.api.autodesk.com/authentication/v2/authorize?response_type=code&client_id=bWThP2AEraQQR5UxyikTNw8cYgq1qTJT&redirect_uri=https://integrationqa.asite.com/partner/code&scope=data:read");
+            page.navigate(ACC_URL);
 
             // Step 2: Input the username
-            page.locator("//input[@id='userName']").fill(username);
+            page.locator(ACC_USERNAME).fill(username);
 
             // Step 3: Click the verify button
-            page.locator("//button[@id='verify_user_btn']").click();
+            page.locator(ACC_VERIFY_BUTTON).click();
 
             // Step 4: Input the password
-            page.locator("//input[@id='password']").fill(password);
+            page.locator(ACC_PASSWORD).fill(password);
 
             // Step 5: Click the sign-in button
-            page.locator("//button[@id='btnSubmit']").click();
+            page.locator(ACC_SUBMIT_BUTTON).click();
 
             // Step 6: Click the Allow button
-            page.locator("//a[@id='allow_btn']").click();
+            page.locator(ACC_ALLOW_BUTTON).click();
 
             // Step 7: Wait for the URL to include the code
-            page.waitForURL("**/partner/code?*");
+            page.waitForURL(ACC_WAIT_FOR_ASSERTION_URL);
 
             // Step 8: Extract the code from the URL
             String url = page.url();
