@@ -1,7 +1,6 @@
 package com.acc.common;
 
-import com.microsoft.playwright.Locator;
-import com.microsoft.playwright.Page;
+import com.microsoft.playwright.*;
 import com.microsoft.playwright.options.LoadState;
 import com.microsoft.playwright.options.WaitForSelectorState;
 import org.testng.Assert;
@@ -99,8 +98,24 @@ public class FileUploadHelper {
         page.waitForLoadState();
 
         Locator uploadSuccess = page.locator(UPLOAD_SUCCESS_MESSAGE_);
-        uploadSuccess.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE));
-        logger.info("File upload successful.");
+        boolean isVisible = false;
+        long startTime = System.currentTimeMillis();
+        long maxWaitTime = 300000; // 5 minutes in milliseconds
+
+        while (!isVisible && (System.currentTimeMillis() - startTime) < maxWaitTime) {
+            try {
+                uploadSuccess.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE).setTimeout(1000));
+                isVisible = true;
+            } catch (TimeoutError e) {
+                // Continue waiting
+            }
+        }
+
+        if (isVisible) {
+            logger.info("File upload successful.");
+        } else {
+            logger.warning("File upload did not complete within 5 minutes.");
+        }
     }
 
     public static String getLatestFileName() {

@@ -8,7 +8,7 @@ module.exports = defineConfig({
         ['html', { open: 'never' }],
     ],
     use: {
-        headless: false,
+        headless: true,
         viewport: null,
         ignoreHTTPSErrors: true,
         video: 'retain-on-failure',
