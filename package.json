@@ -1,0 +1,19 @@
+{
+  "name": "playwright-testng-project",
+  "version": "1.0.0",
+  "description": "A project using Playwright with TestNG",
+  "main": "index.js",
+  "scripts": {
+    "test": "mvn clean test",
+    "playwright-test": "npx playwright test",
+    "playwright-report": "npx playwright show-report"
+  },
+  "author": "Your Name",
+  "license": "ISC",
+  "dependencies": {
+    "playwright": "^1.30.0"
+  },
+  "devDependencies": {
+    "playwright": "^1.30.0"
+  }
+}
