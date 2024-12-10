@@ -18,9 +18,11 @@ import java.net.http.HttpResponse;
 
 import static com.acc.constants.IntegrationConstants.*;
 import static org.testng.Assert.assertEquals;
+import java.util.logging.Logger;
 
 public class PlaywrightTest {
 
+    private static final Logger logger = Logger.getLogger(PlaywrightTest.class.getName());
     private Playwright playwright;
     private Browser browser;
     private Page page;
@@ -59,7 +61,7 @@ public class PlaywrightTest {
         Thread.sleep(5000);
 
         String bearerToken = GetOauthToken.getAccessToken("acc.integration@asite.com", "Asite@1234");
-        System.out.println("Extracted OauthCode: " + bearerToken);
+        logger.info("Extracted OauthCode: " + bearerToken);
 
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
@@ -78,7 +80,7 @@ public class PlaywrightTest {
 
         // Search for the key "displayName" and assert its value
         String expectedValue = FileUploadHelper.getLatestFileName();
-        System.out.println("Expected File Name: " + expectedValue); // Replace with your expected value
+        logger.info("Expected File Name: " + expectedValue); // Replace with your expected value
         boolean found = false;
 
         for (JsonNode node : rootNode.get("data")) {

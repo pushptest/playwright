@@ -8,8 +8,10 @@ import com.microsoft.playwright.Page;
 import com.microsoft.playwright.options.WaitForSelectorState;
 
 import static com.acc.constants.IntegrationConstants.*;
-
+import java.util.logging.Logger;
 public class LoginHelper {
+
+    private static final Logger logger = Logger.getLogger(LoginHelper.class.getName());
 
     public static void login(Page page, String username, String password) {
 
@@ -17,21 +19,18 @@ public class LoginHelper {
 
         FrameLocator iframeLocator = page.frameLocator("#iFrameAsite");
 
-        System.out.println("Filling in username...");
+        logger.info("Filling in username...");
         iframeLocator.locator(IntegrationConstants.USERNAME).fill(username);
 
-        System.out.println("Filling in password...");
+        logger.info("Filling in password...");
         iframeLocator.locator(IntegrationConstants.PASSWORD).fill(password);
 
-        System.out.println("Clicking login button...");
+        logger.info("Clicking login button...");
         iframeLocator.locator(IntegrationConstants.LOGIN_BUTTON_).click();
 
         // After interacting with the iframe, you're automatically back to the main page context
-        System.out.println("Login process completed.");
+        logger.info("Login process completed.");
 
-        // Optional: Continue interacting with elements on the main page if needed
-        // Locator someElement = page.locator("some-selector-on-main-page");
-        // someElement.click();
     }
 
 

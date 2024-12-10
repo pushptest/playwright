@@ -5,6 +5,7 @@ import com.microsoft.playwright.Page;
 import com.microsoft.playwright.options.LoadState;
 import com.microsoft.playwright.options.WaitForSelectorState;
 import org.testng.Assert;
+import java.util.logging.Logger;
 
 import java.io.File;
 import java.nio.file.Paths;
@@ -18,8 +19,9 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class FileUploadHelper {
-    private static final String ORIGINAL_FILE_PATH = "D:/DNT/PlayWright New/psIntegrationAutomation/psIntegrationAutomation/playwright/src/main/resources/UploadFile.txt";
-    private static final String UPLOAD_DIRECTORY = "D:/DNT/PlayWright New/psIntegrationAutomation/psIntegrationAutomation/playwright/src/main/resources";
+//    private static final String ORIGINAL_FILE_PATH = "D:/DNT/PlayWright New/psIntegrationAutomation/psIntegrationAutomation/playwright/src/main/resources/UploadFile.txt";
+//    private static final String UPLOAD_DIRECTORY = "D:/DNT/PlayWright New/psIntegrationAutomation/psIntegrationAutomation/playwright/src/main/resources";
+    private static final Logger logger = Logger.getLogger(FileUploadHelper.class.getName());
     public static String UPLOAD_FILE_PATH;
 
     // Method to generate a new file name and copy the original file
@@ -40,7 +42,7 @@ public class FileUploadHelper {
         // Update the UPLOAD_FILE_PATH to the new file
         UPLOAD_FILE_PATH = newFilePath.toString();
 
-        System.out.println("Prepared file for upload: " + UPLOAD_FILE_PATH);
+        logger.info("Prepared file for upload: " + UPLOAD_FILE_PATH);
     }
 
     public static void uploadFile(Page page) throws IOException {
@@ -56,13 +58,13 @@ public class FileUploadHelper {
 
         // Click on the "Files" tab
         filesTabLocator.click();
-        System.out.println("Navigated to the 'Files' tab.");
+        logger.info("Navigated to the 'Files' tab.");
 
         Locator activeTabLocator = page.locator(FILES_TAB_ACTIVE);
         activeTabLocator.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE)); // Wait for it to be visible
 
         Assert.assertTrue(activeTabLocator.isVisible(), "The 'Files' tab is not active as expected.");
-        System.out.println("The 'Files' tab is active.");
+        logger.info("The 'Files' tab is active.");
 
         page.waitForTimeout(2000);
         Locator folderTabLocator = page.locator(FOLDER_);
@@ -70,7 +72,7 @@ public class FileUploadHelper {
 
         folderTabLocator.click();
 
-        System.out.println("Selected the folder");
+        logger.info("Selected the folder");
 
         page.waitForTimeout(2000);
 
@@ -82,7 +84,7 @@ public class FileUploadHelper {
         chooseFileOption.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE));
         chooseFileOption.click();
 
-        System.out.println("choose upload file option");
+        logger.info("choose upload file option");
 
         Locator selectFileButton = page.locator(FILE_INPUT_);
         selectFileButton.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE));
@@ -98,7 +100,7 @@ public class FileUploadHelper {
 
         Locator uploadSuccess = page.locator(UPLOAD_SUCCESS_MESSAGE_);
         uploadSuccess.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE));
-        System.out.println("File upload successful.");
+        logger.info("File upload successful.");
     }
 
     public static String getLatestFileName() {

@@ -20,7 +20,8 @@ public class IntegrationConstants {
     public static final String FILE_INPUT_= "//div[@class='upload-overlay bootstrap-latest open']//input[@name='files']";
     public static final String UPLOAD_BUTTON= "//div[@class='upload-overlay bootstrap-latest open']//button[.='Upload']";
     public static final String UPLOAD_SUCCESS_MESSAGE_= "div[class*='simple-notification-wrapper'] div[class*='success']";
-    //public static final String UPLOAD_FILE_PATH= "D:/DNT/PlayWright New/Integration Automation/integrationsAutomation/src/main/resources/UploadFile.txt";
+    public static final String ORIGINAL_FILE_PATH = "D:/DNT/PlayWright New/psIntegrationAutomation/psIntegrationAutomation/playwright/src/main/resources/UploadFile.txt";
+    public static final String UPLOAD_DIRECTORY = "D:/DNT/PlayWright New/psIntegrationAutomation/psIntegrationAutomation/playwright/src/main/resources";
     public static final String ACC_URL= "https://developer.api.autodesk.com/authentication/v2/authorize?response_type=code&client_id=bWThP2AEraQQR5UxyikTNw8cYgq1qTJT&redirect_uri=https://integrationqa.asite.com/partner/code&scope=data:read";
     public static final String ACC_USERNAME= "//input[@id='userName']";
     public static final String ACC_VERIFY_BUTTON= "//button[@id='verify_user_btn']";
