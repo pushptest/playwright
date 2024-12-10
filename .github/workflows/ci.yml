@@ -28,8 +28,8 @@ jobs:
         npm install -g playwright
         npx playwright install --with-deps
 
-    - name: Run TestNG tests
-      run: mvn clean test
+    - name: Run TestNG tests with debug logging
+      run: mvn clean test -X
 
     - name: Generate Allure report
       run: mvn allure:report
