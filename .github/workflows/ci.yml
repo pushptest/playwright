@@ -32,7 +32,7 @@ jobs:
       run: npx playwright test
 
     - name: Run TestNG tests
-      run: mvn test
+      run: mvn clean test
 
     - name: Generate Playwright report
       run: npx playwright show-report
