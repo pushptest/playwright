@@ -42,30 +42,27 @@ jobs:
         name: surefire-reports
         path: target/surefire-reports
 
-    - name: Install Allure CLI
-      run: |
-        wget https://github.com/allure-framework/allure2/releases/download/2.22.3/allure-2.22.3.tgz
-        tar -zxvf allure-2.22.3.tgz
-        sudo mv allure-2.22.3 /usr/local/bin/allure
-        sudo ln -s /usr/local/bin/allure/bin/allure /usr/bin/allure
-
     - name: Generate Allure Report
       run: |
-        allure generate target/allure-results --clean -o target/allure-report
+        mvn allure:report
+
+    - name: Serve Allure Report
+      run: |
+        mvn allure:serve
 
     - name: Upload Allure Report
       if: always() # Ensure this step runs even if tests fail
       uses: actions/upload-artifact@v4
       with:
         name: allure-report
-        path: target/allure-report
+        path: allure-report
 
     - name: Debug Allure Results (Optional)
       if: always()
       uses: actions/upload-artifact@v4
       with:
         name: allure-results
-        path: target/allure-results
+        path: allure-results
 
     - name: Notify Build Status
       if: failure() # Runs only if the previous steps failed
