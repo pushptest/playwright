@@ -1,0 +1,12 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<!--<suite name="ACC Playwright Test Suite" parallel="methods" thread-count="4">-->
+<suite name="ACC Playwright Test Suite">
+    <listeners>
+        <listener class-name="io.qameta.allure.testng.AllureTestNg"/>
+    </listeners>
+    <test name="Playwright Tests">
+        <classes>
+            <class name="com.acc.tests.PlaywrightTest"/>
+        </classes>
+    </test>
+</suite>

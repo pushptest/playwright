@@ -12,9 +12,10 @@ target/
 *.iml
 *.ipr
 .idea/
-allure-results/
+target/allure-results/
 allure-report/
 node_modules/
+allure-results/
 
 ### Eclipse ###
 .apt_generated
