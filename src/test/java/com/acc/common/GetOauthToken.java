@@ -17,7 +17,7 @@ public class GetOauthToken {
 
     public static String getAccessToken(String username, String password) throws Exception {
         try (Playwright playwright = Playwright.create()) {
-            Browser browser = playwright.chromium().launch(new BrowserType.LaunchOptions().setHeadless(false));
+            Browser browser = playwright.chromium().launch(new BrowserType.LaunchOptions().setHeadless(true));
             Page page = browser.newPage();
 
             // Step 1: Open the URL
