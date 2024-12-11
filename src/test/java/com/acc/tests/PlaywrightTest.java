@@ -30,7 +30,7 @@ public class PlaywrightTest {
     @BeforeMethod
     public void setUp() {
         playwright = Playwright.create();
-        browser = playwright.chromium().launch(new BrowserType.LaunchOptions().setHeadless(true).setSlowMo(1000));
+        browser = playwright.chromium().launch(new BrowserType.LaunchOptions().setHeadless(false).setSlowMo(1000));
         page = browser.newPage();
     }
 
@@ -57,9 +57,6 @@ public class PlaywrightTest {
 
     @Test(priority = 2, dependsOnMethods = {"testLogin"}) // Execute this test after testLogin
     public void getAccFilesListing() throws Exception {
-        // Wait for 5 seconds before starting the next test
-        Thread.sleep(5000);
-
         String bearerToken = GetOauthToken.getAccessToken("acc.integration@asite.com", "Asite@1234");
         logger.info("Extracted OauthCode: " + bearerToken);
 
@@ -70,31 +67,42 @@ public class PlaywrightTest {
                 .header("Cookie", "inst-id=9L5jXhKwk5xgkuNW1m5bIyUuw6g.QcH3lv-y3rql0zQtFAlvkfYbgdwBb027we0Oofi-ZbU")
                 .build();
 
-        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-
-        //System.out.println("API Response: " + response.body());
-
-        // Parse the JSON response
         ObjectMapper objectMapper = new ObjectMapper();
-        JsonNode rootNode = objectMapper.readTree(response.body());
-
-        // Search for the key "displayName" and assert its value
         String expectedValue = FileUploadHelper.getLatestFileName();
-        logger.info("Expected File Name: " + expectedValue); // Replace with your expected value
-        boolean found = false;
+        logger.info("Expected File Name: " + expectedValue);
 
-        for (JsonNode node : rootNode.get("data")) {
-            if (node.has("attributes") && node.get("attributes").has("displayName")) {
-                String displayName = node.get("attributes").get("displayName").asText();
-                if (displayName.equals(expectedValue)) {
-                    found = true;
-                    break;
+        boolean found = false;
+        int maxRetries = 30; // Retry for 5 minutes (10 seconds per retry)
+        int retryInterval = 10000; // 10 seconds in milliseconds
+
+        for (int attempt = 1; attempt <= maxRetries; attempt++) {
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            JsonNode rootNode = objectMapper.readTree(response.body());
+            JsonNode dataNode = rootNode.get("data");
+
+            if (dataNode != null && dataNode.isArray()) {
+                for (JsonNode node : dataNode) {
+                    if (node.has("attributes") && node.get("attributes").has("displayName")) {
+                        String displayName = node.get("attributes").get("displayName").asText();
+                        if (displayName.equals(expectedValue)) {
+                            found = true;
+                            logger.info("Expected value found in API response on attempt " + attempt);
+                            break;
+                        }
+                    }
                 }
             }
+
+            if (found) break;
+
+            logger.info("Attempt " + attempt + ": Expected value not found, retrying after 10 seconds...");
+            Thread.sleep(retryInterval);
         }
 
-        assertEquals(true, found, "Expected displayName value not found in the response");
+        assertEquals(true, found, "Expected displayName value not found in the response within 5 minutes");
     }
+
+
 
     @AfterMethod
     public void tearDown() {
