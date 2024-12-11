@@ -1,3 +1,14 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch: # Enable manual workflow trigger
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -12,20 +23,30 @@ jobs:
         java-version: '11'
         distribution: 'temurin'
 
-    - name: Install dependencies
+    - name: Install Node.js and Playwright dependencies
       run: |
         npm install
         npm install -g playwright
         npx playwright install --with-deps
 
     - name: Run tests with debug logging
-      run: mvn clean test -X || true
+      run: |
+        mvn clean test -X || true
+      env:
+        FILE_BASE_DIR: ${{ github.workspace }} # Ensure proper pathing for file handling
 
     - name: Upload Surefire Reports
       uses: actions/upload-artifact@v4
       with:
         name: surefire-reports
         path: target/surefire-reports
+
+    - name: Install Allure CLI
+      run: |
+        wget https://github.com/allure-framework/allure2/releases/download/2.22.3/allure-2.22.3.tgz
+        tar -zxvf allure-2.22.3.tgz
+        sudo mv allure-2.22.3 /usr/local/bin/allure
+        sudo ln -s /usr/local/bin/allure/bin/allure /usr/bin/allure
 
     - name: Generate Allure Report
       run: |
@@ -36,3 +57,7 @@ jobs:
       with:
         name: allure-report
         path: target/allure-report
+
+    - name: Notify build status (optional)
+      if: failure() # This runs only if the previous steps failed
+      run: echo "Build failed! Please check the uploaded reports for more details."
