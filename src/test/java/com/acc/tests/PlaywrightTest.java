@@ -30,7 +30,7 @@ public class PlaywrightTest {
     @BeforeMethod
     public void setUp() {
         playwright = Playwright.create();
-        browser = playwright.chromium().launch(new BrowserType.LaunchOptions().setHeadless(true).setSlowMo(1000));
+        browser = playwright.chromium().launch(new BrowserType.LaunchOptions().setHeadless(false).setSlowMo(1000));
         page = browser.newPage();
     }
 
